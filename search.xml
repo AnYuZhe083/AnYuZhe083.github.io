@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>vue2</title>
+      <link href="/2023/09/06/my-first-blog/"/>
+      <url>/2023/09/06/my-first-blog/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="什么是vue-有什么意义"><a href="#什么是vue-有什么意义" class="headerlink" title="什么是vue? 有什么意义?"></a>什么是vue? 有什么意义?</h2><p>Vue是一套用于构建用户界面的渐进式框架，自底层向上应用，Vue的核心库只关注视图层，容易入门，可以和第三方库或者已有的项目进行整合，可以做复杂的单页应用。简单的说，vue是一套前端的开发框架，vue是目前三大主流的框架之一，其他两个框架是:React、Angular。</p><p>像Vue和React、Angular等前端框架的出现，让前端的开发更加的规范化、也让更加的便捷。这样子的好处表现在前端工程化、前后端分离（数据双向绑定）、组件化开发</p><h2 id="第一篇文章"><a href="#第一篇文章" class="headerlink" title="第一篇文章"></a>第一篇文章</h2><ul><li>列表1</li><li>列表2<br>  a 子列表<br>  a 子列表</li><li>列表3</li><li><span id="more"></span></li></ul><hr><p><a href="https://www.baidu.com/">百度导航</a></p><p><img src="https://img1.baidu.com/it/u=2576115320,2786898145&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800" alt="图片"></p><p><em>斜线字体</em></p><p><strong>加粗</strong></p><p><code>&lt;html&gt;单行代码块&lt;/html&gt;</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">    多行代码块</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> vue2 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 导航 </tag>
+            
+            <tag> 分享 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2023/09/06/hello-world/"/>
+      <url>/2023/09/06/hello-world/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>

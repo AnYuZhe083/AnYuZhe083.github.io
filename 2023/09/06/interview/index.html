@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="cssIE盒模型和标准盒模型 IE怪异盒子模型(怪异盒)的元素宽度width&#x3D;content+padding+border 标准盒模型(普通盒模型)的元素宽度width&#x3D;content+padding+border+margin   CSS选择器的优先级排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端面试题">
+<meta property="og:url" content="http://example.com/2023/09/06/interview/index.html">
+<meta property="og:site_name" content="小桥流水">
+<meta property="og:description" content="cssIE盒模型和标准盒模型 IE怪异盒子模型(怪异盒)的元素宽度width&#x3D;content+padding+border 标准盒模型(普通盒模型)的元素宽度width&#x3D;content+padding+border+margin   CSS选择器的优先级排序">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/css/1.webp">
+<meta property="article:published_time" content="2023-09-06T08:33:12.000Z">
+<meta property="article:modified_time" content="2023-09-12T04:06:32.867Z">
+<meta property="article:author" content="小桥流水">
+<meta property="article:tag" content="导航">
+<meta property="article:tag" content="分享">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/css/1.webp">
+
+<link rel="canonical" href="http://example.com/2023/09/06/interview/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端面试题 | 小桥流水</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+<script src="/live2d-widget/autoload.js"></script>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小桥流水</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">我自倾怀，君且随意</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/06/interview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img2.baidu.com/it/u=1946543678,4068721136&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500">
+      <meta itemprop="name" content="小桥流水">
+      <meta itemprop="description" content="生活很苦，但不要放弃爱与希望">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小桥流水">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端面试题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-09-06 16:33:12" itemprop="dateCreated datePublished" datetime="2023-09-06T16:33:12+08:00">2023-09-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-12 12:06:32" itemprop="dateModified" datetime="2023-09-12T12:06:32+08:00">2023-09-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>23 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="css"><a href="#css" class="headerlink" title="css"></a>css</h2><h3 id="IE盒模型和标准盒模型"><a href="#IE盒模型和标准盒模型" class="headerlink" title="IE盒模型和标准盒模型"></a>IE盒模型和标准盒模型</h3><ul>
+<li>IE怪异盒子模型(怪异盒)的元素宽度width&#x3D;content+padding+border</li>
+<li>标准盒模型(普通盒模型)的元素宽度width&#x3D;content+padding+border+margin</li>
+</ul>
+<hr>
+<h3 id="CSS选择器的优先级排序"><a href="#CSS选择器的优先级排序" class="headerlink" title="CSS选择器的优先级排序"></a>CSS选择器的优先级排序</h3><p><img src="/images/css/1.webp"></p>
+<hr>
+<span id="more"></span>
+
+<h3 id="css3新特性"><a href="#css3新特性" class="headerlink" title="css3新特性"></a>css3新特性</h3><p>1.文字阴影 text-shadow</p>
+<p>2.边框圆角  border-radius</p>
+<p>3.盒子阴影 box-shadow </p>
+<p>4.背景大小 background-size</p>
+<p>5.渐变 background-image:linear-gradient(渐变方向开始和结束状态，渐变范围（距离）)</p>
+<p>6.过渡 trasition<br>ease- 规定过渡效果，先缓慢地开始，然后加速，然后缓慢地结束（默认）<br>linear - 规定从开始到结束具有相同速度的过渡效果<br>ease-in -规定缓慢开始的过渡效果<br>ease-out - 规定缓慢结束的过渡效果<br>ease-in-out&#96;- 规定开始和结束较慢的过渡效果<br>cubic-bezier(n,n,n,n) - 允许您在三次贝塞尔函数中定义自己的值</p>
+<p>7.2D转换 transform<br>位移 transform:translate(x,y)  第一个值是水平，第二个垂直<br>旋转：transform:rotate(deg)  正值是顺时针，负值是逆时针<br>缩放：trasorm:scale(倍数） 整数（&gt;1）放大，小数（&lt;1）缩小<br>倾斜:transform:skew(deg,deg)  水平，垂直<br>旋转原点：transform-origin：center  默认</p>
+<p>8.动画 animation 可去</p>
+<p>[<a target="_blank" rel="noopener" href="http://www.taodudu.cc/news/show-1922197.html?action=onClick%5D">http://www.taodudu.cc/news/show-1922197.html?action=onClick]</a>: </p>
+<h3 id="transition和animation的区别"><a href="#transition和animation的区别" class="headerlink" title="transition和animation的区别"></a>transition和animation的区别</h3><p>相同点：都是随时间改变元素的属性值</p>
+<p>不同点：transition需要出发一个事件才能改变属性，animation不需要触发任何事件会随时间改变属性值；transition为2帧，从from…to，而animation可以一帧一帧的</p>
+<hr>
+<h3 id="transform的属性"><a href="#transform的属性" class="headerlink" title="transform的属性"></a>transform的属性</h3><p>none：不转换。<br>matrix(mei chui ke si)(n,n,n,n,n,n)：定义2D转换，使用六个值的矩阵。<br>matrix3d(n,n,n,n,n,n,n,n,n,n,n,n,n,n,n,n) 定义3D转换，使用 16 个值的 4x4 矩阵。<br>translate(x,y)：定义2D转换。<br>translate3d(x,y,z)：定义3D转换。<br>translateX(x)：X轴转换<br>translateY(y)：Y轴转换<br>translateZ(z)：Z轴3D转换<br>scale(si gei o)(x,y)：定义2D缩放<br>scale3d(x,y,z)：定义3D缩放<br>scaleX(x)：X轴缩放<br>scaleY(y)：Y轴缩放<br>scaleZ(z)：Z轴3D缩放<br>rotate(angle)：定义2D旋转<br>rotate3d(x,y,z,angle)：定义3D旋转。<br>rotateX(angle)：X轴的3D旋转<br>rotateY(angle)：Y轴的3D旋转<br>rotateZ(angle)：Z轴的3D旋转<br>skew(x-angle,y-angle)：定义2D倾斜<br>skewX(angle)：X轴的2D倾斜<br>skewY(angle)：Y轴的2D倾斜</p>
+<hr>
+<h3 id="画一条0-5px的线"><a href="#画一条0-5px的线" class="headerlink" title="画一条0.5px的线"></a>画一条0.5px的线</h3><p>方法一： 定位+缩放<br>利用的是 transform 缩放功能，将 1px 缩放一半，同时利用定位，将伪元素覆盖整个 div 元素，从而达到伪元素与本身元素的合并效果。</p>
+<p>方法二： box-shadow<br>利用的是 box-shadow 的扩散半径可以设置为 0.5px 原理</p>
+<p>方法三： 直接使用border属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">border: 0.5px solid #fff;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="link和import的区别"><a href="#link和import的区别" class="headerlink" title="link和import的区别"></a>link和import的区别</h3><p>link属于html标签，可以加载CSS；而@import是css提供的语法，只有导入样式表的作用<br>link在页面加载时CSS同时被加载；@import要等页面加载完毕后再加载</p>
+<p>link是HTML提供的语法，没有兼容性问题；@import只有IE5以上才能被识别</p>
+<p>js控制DOM可以通过插入link标签来改变样式，不能通过@import改变</p>
+<p>link标签引入的样式权重大于@import标签</p>
+<hr>
+<h3 id="Flex布局"><a href="#Flex布局" class="headerlink" title="Flex布局"></a>Flex布局</h3><p>Flex是Flexible Box的缩写，意为“弹性布局”，用来为盒装模型提供最大的灵活性，简单的分为容器属性和元素属性</p>
+<p>容器属性：  flex-flow:flex-directio&gt;||flex-wrap</p>
+<p>决定主轴的方向      flex-direction：row|row-reverse|column|column-reverse</p>
+<p>决定换行规则         flex-wrap:npwrap|wrap|wrap-reverse</p>
+<p>水平主轴对齐方式  justify-content</p>
+<p>竖直轴线对齐方式  align-items</p>
+<hr>
+<h3 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h3><p>使用带clear属性的空元素</p>
+<p>使用CSS的overflow属性，在IE6中还需要触发hasLayout，例如为父元素容器设置宽高或设置zoom:1</p>
+<p>给浮动的元素的容器添加浮动</p>
+<p>给浮动元素后面的元素添加clear属性</p>
+<p>使用class的：after伪元素</p>
+<hr>
+<h3 id="元素垂直居中的方法"><a href="#元素垂直居中的方法" class="headerlink" title="元素垂直居中的方法"></a>元素垂直居中的方法</h3><ol>
+<li>父元素：display：flex   align-items：center</li>
+<li>元素绝对定位：top：50%  margin-top：-（高度&#x2F;2）</li>
+<li>高度不确定用transform：translateY（-50%）</li>
+<li>父元素tablel布局，子元素设置vertical-align：center</li>
+</ol>
+<hr>
+<h3 id="图片在容器中居中"><a href="#图片在容器中居中" class="headerlink" title="图片在容器中居中"></a>图片在容器中居中</h3><ol>
+<li>父元素固定宽高，利用定位及设置子元素margin值为自身的一半</li>
+<li>父元素固定宽高，子元素设置position：absolute  margin：auto 平均分配margin</li>
+<li>css3属性transform，子元素设置   position：absolute left\top：50% transform:translate（-50%，-50%）</li>
+<li>父元素 display：table，子元素设置为单元格 display：table</li>
+<li>弹性布局：flex:父元素      align-items：center       justify-content：center</li>
+</ol>
+<hr>
+<h3 id="JS动画和CSS3动画的差异"><a href="#JS动画和CSS3动画的差异" class="headerlink" title="JS动画和CSS3动画的差异"></a>JS动画和CSS3动画的差异</h3><ul>
+<li>功能涵盖面，JS比CSS大</li>
+<li>实现&#x2F;重构难度不一，CSS3比JS更加简单，性能跳优方向固定</li>
+<li>对帧速表现不好的低版本浏览器，css3可以做到自然降级</li>
+<li>CSS动画有天然事件支持</li>
+<li>CSS3有兼容性问题</li>
+</ul>
+<hr>
+<h3 id="块元素和行元素"><a href="#块元素和行元素" class="headerlink" title="块元素和行元素"></a>块元素和行元素</h3><hr>
+<p>块元素：独占一行，自动填满父元素，可以设置margin、padding和宽高，设置宽度仍然是独占一行。</p>
+<p>行元素：不会独占一行，不能设置宽高，并且垂直方向的padding和margin会失效</p>
+<p>行内块元素：既具有block的宽高度特性，又具有inline的同行特性</p>
+<p>提醒：iframe、img、video是可替换元素，拥有内置宽高</p>
+<hr>
+<h3 id="多行元素的文本省略"><a href="#多行元素的文本省略" class="headerlink" title="多行元素的文本省略"></a>多行元素的文本省略</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">display：-webkit-box；// 将对象作为弹性伸缩盒子模型显示</span><br><span class="line">-webkit-line-clamp：3; // 这个属性不是css的规范属性，需要组合上面两个属性，表示显示的行数</span><br><span class="line">-webkit-box-orient：vertical; // 从上到下垂直排列子元素（设置伸缩盒子的子元素排列方式）</span><br><span class="line">text-overflow：ellipsis; // 溢出用省略号显示</span><br><span class="line">overflow：hidden;  // 超出的文本隐藏</span><br><span class="line">white-space: nowrap; // 溢出不换行</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="position属性"><a href="#position属性" class="headerlink" title="position属性"></a>position属性</h3><p>position属性把元素放在一个静态的、相对的、绝对的、固定的位置中</p>
+<p>固定定位fixed：元素的位置相对于浏览器窗口是固定位置，即使窗口是滚动的它也不会移动。fixed定位使元素的位置与文档流无关，因此不占据空间。fixed定位的元素和其它元素重叠。</p>
+<p>相对定位relative：会使得元素相对于它自身位置进行对应的移动。元素仍然占据原来的空间，会覆盖其他框。</p>
+<p>绝对定位absolute：使元素相对于最近的已定位的父元素，如果没有已定位的，那么它会相对于HTML。元素位置与文档流无关，不占据空间与其他元素会重叠。</p>
+<p>粘性定位sticky：元素先按照普通文档流定位，然后相对于该元素在流中的flow root（BFC）和containing block（最近的块级祖先元素）定位，元素定位表现为在跨越特定阈值前为相对定位，之后为固定定位。</p>
+<p>默认定位static：默认值没有定位。元素出现在正常的流中，忽略top、bottom、left、right或者z-index声明。</p>
+<p>inherit：规定应该从父元素继承position属性的值。</p>
+<hr>
+<h3 id="CSS3对溢出的处理"><a href="#CSS3对溢出的处理" class="headerlink" title="CSS3对溢出的处理"></a>CSS3对溢出的处理</h3><p>text-overflow属性：值为clip是修剪文本，ellipsis为显示省略号符号来表示被修剪的文本；string为使用给定的字符串来代表被修剪的文本。</p>
+<hr>
+<h3 id="隐藏页面中某个元素"><a href="#隐藏页面中某个元素" class="headerlink" title="隐藏页面中某个元素"></a>隐藏页面中某个元素</h3><p>opacity：0</p>
+<p>该元素隐藏起来，但不会改变页面布局，并且该元素绑定的事件依然能被触发</p>
+<p>visibility：hidden</p>
+<p>该元素隐藏起来，但不会改变页面布局，但是该元素绑定的事件不会被触发</p>
+<p>display：none</p>
+<p>该元素隐藏起来，相当于该元素被删掉，所以会改变页面布局</p>
+<hr>
+<h3 id="z-index的定位方法"><a href="#z-index的定位方法" class="headerlink" title="z-index的定位方法"></a>z-index的定位方法</h3><hr>
+<p>z-index属性设置元素的堆叠顺序，拥有更好的堆叠顺序的元素会处于较低顺序元素之前，其值可以为负，且只能在定位元素上奏效，该属性设置一个定位元素沿z轴的位置，如果是正数，离用户越近，反之亦然</p>
+<hr>
+<h3 id="Dom与Bom"><a href="#Dom与Bom" class="headerlink" title="Dom与Bom"></a>Dom与Bom</h3><p>DOM 是为了操作文档出现的 API，document 是其的一个对象；<br>BOM 是为了操作浏览器出现的 API，window 是其的一个对象。<br>BOM是浏览器对象模型，DOM是文档对象模型，前者(BOM)是对浏览器本身进行操作，而后者(DOM)是对浏览器（可看成容器）内的内容进行操作<br>包含属性：<br>BOM： location、navigato、document<br>DOM：document也是BOM的window的子对象；<br>PS：DOM的最根本的对象是BOM的window对象的子对象<br>使用标准<br>1）DOM是W3C的标准，所有浏览器公共遵守的标准<br>2）BOM是各个浏览器厂商根据DOM在各自浏览器上的实现（表现为不同浏览器定义有差别，实现方式不同）<br>3）window为BOM对象，而非js对象</p>
+<p>DOM是文档对象模型<br>    它指的是把文档当作一个对象来对待，提供访问和操作网页内容的方法和接口<br>    - 方法：<br>    document.head  获取一个html的head部分<br>    document.body  获取一个html的body部分<br>    document.innerHTML 获取标签<br>    document.innerText 获取文本<br>    document.querySelector 获取元素<br>    document.getElementById 根据id获取元素<br>    onclick 点击事件<br>    addEventListener 点击事件<br>    BOM是浏览器对象模型<br>    它指的是将浏览器当作一个对象来对待，提供与浏览器交互的方法和接口<br>    - 方法<br>    prompt  显示可提示用户输入的对话框<br>    alert  显示带有一个提示信息和一个确定按钮的警示框<br>    confirm  显示一个带有提示信息、确定和取消按钮的对话框<br>    close  关闭浏览器窗口<br>    open  根据给定的url打开一个新的浏览器窗口<br>    setTimeout  在指定的毫秒数后调用函数或计算表达式<br>    setInterval  按照指定的周期（以毫秒计）来调用函数或表达式</p>
+<hr>
+<hr>
+<h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><h3 id="普通函数与箭头函数的区别"><a href="#普通函数与箭头函数的区别" class="headerlink" title="普通函数与箭头函数的区别?"></a>普通函数与箭头函数的区别?</h3><ul>
+<li>箭头函数没有原型对象prototype</li>
+<li>箭头函数是匿名函数不能作为构造函数不能被new</li>
+<li>箭头函数不能当作Generator函数，不能使用yeild关键字。</li>
+<li>箭头函数不绑定arguments，取而代之用…rest参数解决</li>
+<li>箭头函数不绑定this，会捕获他所在上下文的this值，作为自己的this值</li>
+<li>箭头函数的 this永远指向其上下文的this ，任何方法都改变不了其指向，如 call() , bind() , apply()</li>
+<li></li>
+</ul>
+<hr>
+<h3 id="Generator函数"><a href="#Generator函数" class="headerlink" title="Generator函数"></a>Generator函数</h3><p>Generator函数也叫生成器函数是 ES6提供的一种异步编程解决方案<br>Generator函数像一个状态机，保存了许多状态，并将这些状态作为遍历器对象返回<br>为了和传统的函数区别，Generator函数function后面会跟着一个*号，函数内部通常有许多yield后跟着表达式表示状态。<br>Generator函数特性<br>1.传统的函数被调用后会立马执行，且一次执行到return结束，而Generator函数被调用时不会立马执行内部的语句，而是返回了一个遍历器对象，<br>2.由遍历器对象的next()方法启动，遇到yield后又会暂停，直到下一个next()才会继续启动。<br>Generator函数和构造函数的区别<br>1.Generator 函数返回的遍历器是 Generator 函数的实例，也继承了 Generator 函数的prototype对象上的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">gen</span>(<span class="params"></span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">yield</span> <span class="number">2</span>); <span class="comment">// undefined</span></span><br><span class="line">		<span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">4</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">let</span> ge=<span class="title function_">gen</span>() <span class="comment">//返回一个遍历器对象</span></span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(ge.<span class="title function_">next</span>()) <span class="comment">// &#123;value: 1, done: false&#125;</span></span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(ge.<span class="title function_">next</span>()) <span class="comment">// &#123;value: 2, done: false&#125;</span></span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(ge.<span class="title function_">next</span>()) <span class="comment">//  &#123;value: 3, done: false&#125;</span></span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(ge.<span class="title function_">next</span>()) <span class="comment">//  &#123;value: 4, done: true&#125;</span></span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(ge.<span class="title function_">next</span>()) <span class="comment">// &#123;value: undefined , done: true&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="什么是Promise"><a href="#什么是Promise" class="headerlink" title="什么是Promise?"></a>什么是Promise?</h3><p>promise是解决异步的方法。</p>
+<ul>
+<li>Promise对象有两个特点：<ul>
+<li>1）对象的状态不受外界的影响。</li>
+<li>2）状态一旦改变，便不会再次改变。而且它的状态改变只会由（pending-&gt;fulfilled、pending-&gt;rejected）并且这两种情况只要发生其中一个，状态便固定了。</li>
+</ul>
+</li>
+<li>Promise的优点：<ul>
+<li>支持链式调用（可以将异步操作以同步的方式显示出来）避免回调地狱</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="promise的使用场景"><a href="#promise的使用场景" class="headerlink" title="promise的使用场景?"></a>promise的使用场景?</h3><p>1.获取文件信息<br>2.配合Ajax获取信息<br>3.解决回调地狱，实现单行任务队列<br>4.node中进行本地操作的异步过程</p>
+<hr>
+<h3 id="什么是回调地狱？"><a href="#什么是回调地狱？" class="headerlink" title="什么是回调地狱？"></a>什么是回调地狱？</h3><p>多层回调函数的相互嵌套 就形成了回调地狱<br>缺点：<br>    代码耦合性太强 牵一发而动全身 难以维护<br>    大量冗余的代码相互嵌套 代码的可读性变差</p>
+<hr>
+<h3 id="对this的理解？"><a href="#对this的理解？" class="headerlink" title="对this的理解？"></a>对this的理解？</h3><p>1.任何情况下直接在script中写入的this都指向window<br>2.函数中的this在非严格模式下指向的是window，严格模式下是指向undefined<br>3.箭头函数中的this都指向函数外上下文环境的this指向<br>4.对象中的this指向对象外上下文环境的this<br>5.回调中的this指向：<br>①setTimeout，setInterval回调函数不管是不是严格模式都指向window<br>②通过函数内执行当前回调函数和递归中的this，在非严格模式下指向的是window，严格模式下指向的是undefined<br>③使用arguments执行函数时，this指向arguments<br>④事件中的回调函数，this指向事件监听的对象<br>6.call，apply，bind方法执行时，如果第一个参数传入的不是null或者是undefined，那么传入什么this指向什么；如果第一个参数传入的是null或undefined，非严格模式下this指向window<br>7.ES6的类中 this的指向<br>①构造函数中的this指向当前实例类所产生的实例对象<br>②类中实例化方法中this指向 谁执行该方法，this指向谁<br>③类中静态方法中this指向该类或者该类的构造函数<br>④类中实例化箭头方法，this仍然指向当前类实例化的实例对象<br>8.ES5的原形对象中的this指向<br>在原型的方法中，this指向实例化当前构造函数的实例化对象，就是谁执行该方法，this就指向谁</p>
+<hr>
+<h3 id="什么是事件循环"><a href="#什么是事件循环" class="headerlink" title="什么是事件循环"></a>什么是事件循环</h3><p>事件循环机制就是一种同步编程模型，用于异步处理操作，当代码中遇到需要等待操作结果的语句时 js引擎不会一直等待，而是将该语句放入事件的队列中，并执行下一步语句，异步操作完成的时候，就会将其对应的事件加入到事件队列中</p>
+<hr>
+<h3 id="事件循环机制的组成"><a href="#事件循环机制的组成" class="headerlink" title="事件循环机制的组成"></a>事件循环机制的组成</h3><ul>
+<li>事件队列：<br>用来存储事件的队列，包括鼠标点击、键盘输入、定时器等等</li>
+<li>执行栈：<br>用来存储正在执行的代码</li>
+<li>宏任务：<br>指的是需要被放入事件队列中的任务，例如setTimeout&#x2F;setInterval等</li>
+<li>微任务：<br>指的是需要当前任务执行完成后立即执行的任务，例如Promise的then&#x2F;catch&#x2F;finally方法</li>
+</ul>
+<hr>
+<h3 id="事件轮询的机制-也叫事件循环的机制（eventLoop）"><a href="#事件轮询的机制-也叫事件循环的机制（eventLoop）" class="headerlink" title="事件轮询的机制 也叫事件循环的机制（eventLoop）"></a>事件轮询的机制 也叫事件循环的机制（eventLoop）</h3><p>一个用来等待和发送消息和事件的程序结构。<br>1、所有任务都在主线程上执行，形成一个执行栈。<br>2、主线程发现有异步任务，如果是微任务就把他放到微任务的消息队列里，如果是宏任务就把他放到宏任务的消息队列里。<br>3、执行栈所有同步任务执行完毕。<br>4、执行微任务队列，之后再执行宏任务队列。<br>5、以上步骤重复执行就是事件轮询</p>
+<ul>
+<li>宏任务：setInterVal setTimeout ajax</li>
+<li>微任务：promise async await .then<ul>
+<li>promise优先于setTimeout，setTimeout回调函数最后执行，promise一旦被定义就会立即执行</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="for-in和for-of区别？"><a href="#for-in和for-of区别？" class="headerlink" title="for in和for of区别？"></a>for in和for of区别？</h3><ul>
+<li>for  in 用于遍历对象的键，会遍历自身和原型链上的枚举属性 如果是数组将会把数组索引当做对象来遍历</li>
+<li>枚举属性是由enumerable值决定的，true为可枚举，false为不可枚举</li>
+<li>可枚举可以理解为是否可以被遍历</li>
+<li>JS中预定义的原型属性一般是不可枚举的，而自己定义的属性一般可枚举</li>
+<li>可以通过propertyIsEnumerable方法判断该属性是否可枚举</li>
+<li><code>for of</code>和<code>forEach</code>一样,是直接得到值</li>
+<li><code>for of</code>不能用于对象</li>
+</ul>
+<hr>
+<h3 id="new一个对象的过程？"><a href="#new一个对象的过程？" class="headerlink" title="new一个对象的过程？"></a>new一个对象的过程？</h3><ul>
+<li>在堆内存中申请了一块空间 创建一个新对象</li>
+<li>将新对象的__proto__指向构造函数中的原型对象prototype</li>
+<li>新对象会绑定到函数调用的this(比如：实例对象捕获构造函数的this当做自己的this)</li>
+<li>执行构造函数中的代码（为这个新对象添加属性）</li>
+<li>返回新对象。| 将初始化完毕的新对象地址，保存到等号左边的变量中</li>
+</ul>
+<hr>
+<h3 id="什么是闭包？"><a href="#什么是闭包？" class="headerlink" title="什么是闭包？"></a>什么是闭包？</h3><p>能够读取外层函数内部变量的函数</p>
+<ul>
+<li>当内层函数调用外层函数的变量或参数时产生闭包<br>1.访问作用域<br>2.函数嵌套<br>3.在作用域外被调用</li>
+<li>闭包的优点：只有函数内部的子函数才能读取局部变量,可以避免全局污染(避免全局污染)</li>
+<li>闭包的缺点：变量常驻内存，得不到释放会使内存持续增压，导致内存泄漏<br>使用场景<br>1.setTimeout<br>2.回调<br>3.函数防抖</li>
+</ul>
+<hr>
+<h3 id="什么是堆内存和栈内存？"><a href="#什么是堆内存和栈内存？" class="headerlink" title="什么是堆内存和栈内存？"></a>什么是堆内存和栈内存？</h3><p>堆内存是一种非连续的树形存储数据结构，每个节点有一个值<br>栈内存是一种连续存储数据结构，具有先进后出的性质</p>
+<ul>
+<li><p>堆主要用于存放复杂类型的变量</p>
+<ul>
+<li>堆是先进先出</li>
+<li>空间较大</li>
+<li>堆的申请和释放是由程序员控制的，容易产生内存泄漏</li>
+</ul>
+</li>
+<li><p>栈主要是存储基本类型的变量</p>
+<ul>
+<li>栈是先进后出</li>
+<li>空间较小</li>
+<li>栈是由系统自动分配释放</li>
+<li>栈的效率高</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="节流和防抖？"><a href="#节流和防抖？" class="headerlink" title="节流和防抖？"></a>节流和防抖？</h3><p>防抖是连续触发的事件，只会执行最后一个<br>节流是每隔一段时间触发一次<br>实现防抖通过定时器<br>实现节流通过时间戳</p>
+<ul>
+<li>使用场景<br>防抖：<br>search搜索时，用户在不断输入值时，用防抖来节约请求资源。<br>登陆，发短信（倒计时），防止用户点击过快，以至于发送多次请求<br>节流：<br>鼠标不断触发某事件时,如点击,只在单位事件内触发一次.<br>懒加载时要监听计算滚动条的位置,但不必要每次滑动都触发,可以降低计算频率,而不必要浪费CPU资源.</li>
+</ul>
+<hr>
+<h3 id="数组方法改变原数组？"><a href="#数组方法改变原数组？" class="headerlink" title="数组方法改变原数组？"></a>数组方法改变原数组？</h3><p>shift()  unshift()  pop()  reverse()  sort()  splice()  push()</p>
+<hr>
+<h3 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h3><p>本质上就是一个JS对象，当数据发生变化时，我们不直接操作真实DOM，因为很昂贵，我们去操作这个JS对象，就不会触发大量回流重绘操作，再加上diff算法，可以找到两次虚拟DOM之间改变的部分，从而去一次性更新真实DOM 性能得到了大大的提升</p>
+<hr>
+<h3 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h3><p>js它具有自动回收机制 就是对那些不再用的变量对象进行回收 进行空间的释放</p>
+<ul>
+<li>回收的两种机制<br>1.标记清除 当它进入执行环境的时候 它会被打上进入环境 离开的时候再被打上离开环境 被打上离开环境标记的都会被清除掉<br>2.引用计数</li>
+<li>原理就是 垃圾收集器会定时找出那些不继续使用的变量 然后释放其内存 因为如果内存开销比较打 他的GC会停止响应其他操作 他会阻塞其他应用程序的执行<br>垃圾回收是按照固定时间 周期性的去执行的</li>
+</ul>
+<hr>
+<h3 id="less-和-sass-的区别"><a href="#less-和-sass-的区别" class="headerlink" title="less 和 sass 的区别"></a>less 和 sass 的区别</h3><p>相同点：<br>Sass和Less都是一种CSS预处理器<br>区别：</p>
+<ul>
+<li>Less在JS上运行，Sass在Ruby上使用；</li>
+<li>两者编写变量的方式不同；<br>变量定义符不一样，less用的是@，而sass用$。</li>
+<li>在Less中仅允许循环数值，而在Sass中可以遍历任何类型的数据；</li>
+<li>Sass有Compass，Less有Preboot。</li>
+</ul>
+<hr>
+<h3 id="CSS预处理器是什么"><a href="#CSS预处理器是什么" class="headerlink" title="CSS预处理器是什么"></a>CSS预处理器是什么</h3><p>CSS预处理器是一种脚本语言，用一种专门的编程语言来进行Web页面的样式设计，然后再转换为正常的CSS样式，进而实现构建动态CSS样式。<br>CSS 预处理器为 CSS 增加了一些编程的特性，无需考虑浏览器的兼容性问题。</p>
+<hr>
+<h3 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h3><p>就是一个函数的返回结果只依赖于它的参数，并且在执行过程中没有副作用，我们就把这个函数叫做纯函数。<br>（redux中的reducer就是纯函数）<br>优点：</p>
+<ul>
+<li>可复用性 纯函数仅依赖于传入的参数，这意味着你可以随意将这个函数移植到别的代码中，只需要提供他需要的参数即可</li>
+<li>可测试性 纯函数非常容易进行单元测试，因为不需要考虑上下文环境，只需要考虑输入和输出。</li>
+<li>并行代码 纯函数是健壮的，改变执行次序不会对系统造成影响，因此纯函数的操作可以并行执行。<!--
+// 不是纯函数，依赖了外部变量a
+var a = 1
+function add(b) { return a+b }
+add(1) // 2
+// 是纯函数
+function add(a, b) { return a+b }
+add(1, 2) // 3
+-->
+<!-- 
+// 不是纯函数，有副作用，改变obj里面的a
+var obj = {a: 1}
+function mul(obj) {
+  return obj.a *= 2
+}
+mul(obj) //2
+obj.a //2
+// 是纯函数
+var obj = {a: 1}
+function mul(a) {
+  return a *= 2
+}
+mul(obj.a) //2
+obj.a //1 --></li>
+</ul>
+<hr>
+<h3 id="浏览器的同源策略机制"><a href="#浏览器的同源策略机制" class="headerlink" title="浏览器的同源策略机制"></a>浏览器的同源策略机制</h3><p>同源策略，指的是浏览器限制当前网页只能访问同源的接口资源。<br>所谓同源 两方必须是同协议、且同域名、且同端口。只要有一个不相同，则会受到浏览器的约束，不允许请求。</p>
+<hr>
+<h3 id="token一般存放在哪里-为什么不存放在cookie内"><a href="#token一般存放在哪里-为什么不存放在cookie内" class="headerlink" title="token一般存放在哪里?为什么不存放在cookie内?"></a>token一般存放在哪里?为什么不存放在cookie内?</h3><p>首先有两个存放位置<br>一个是本地存储 另一种是cookie<br>但是两种都有缺点<br>存在本地存储中 这意味着任何在你的网站上的运行的JavaScript都可以访问，所以容易受到XSS攻击<br>如果存在cookie内的话，浏览器的请求默认会在请求头中携带cookie，所以容易受到csrf攻击<br>我的意见是 放到本地存储中<br>撇开localStorage的各种优点不谈，如果做好适当的XSS防护，收益是远大于风险的。<br>因为localStorage具有更灵活，更大空间，天然免疫 CSRF的特征。Cookie空间有限，而JWT一半都占用较多字节，而且有时你不止需要存储一个JWT。</p>
+<ul>
+<li>CSRF攻击<br>简单的说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并运行一些操作（如：发邮件、发信息、甚至财产操作如转账和购买商品）</li>
+<li>XSS攻击<br>是一种代码注入攻击。攻击者通过在目标网站注入恶意脚本，在用户的浏览器上运行。利用这些恶意脚本，攻击者可以获取用户的敏感信息如Cookie、SessionID等，进而危害数据安全。</li>
+</ul>
+<hr>
+<h3 id="token是什么"><a href="#token是什么" class="headerlink" title="token是什么"></a>token是什么</h3><p>token其实就是访问资源凭证 一般在用户成功登陆后 服务器将登陆凭证做数字签名 加密后的字符串作为token</p>
+<hr>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><ul>
+<li>用new关键字来调用定义的函数，称为构造函数。默认返回的是一个新对象，这个新对象具有构造函数定义的变量和函数以及方法</li>
+</ul>
+<hr>
+<h3 id="async-await"><a href="#async-await" class="headerlink" title="async&#x2F;await"></a>async&#x2F;await</h3><p>async&#x2F;await 是ES7提出的基于Promise的解决异步的最终方案。<br>async、await使用 async&#x2F;await, 搭配promise,可以通过编写形似同步的代码来处理异步流程, 提高代码的简洁性和可读性 async用于申明一个function是异步的 而await用于等待一个异步方法执行完成</p>
+<hr>
+<h3 id="axios"><a href="#axios" class="headerlink" title="axios"></a>axios</h3><p>Axios是一个基于promise封装的http请求库<br>特点:<br>1、可以转换请求数据和响应数据，会把响应回来的数据转成 JSON类型的数据；<br>2、拦截请求和响应（相当于给请求加条件）；<br>3、axios.all(promises): 批量发送多个（异步）请求；<br>4、axios在浏览器端&#x2F;node 端都可以使用<br>5、安全性更高</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AF%BC%E8%88%AA/" rel="tag"># 导航</a>
+              <a href="/tags/%E5%88%86%E4%BA%AB/" rel="tag"># 分享</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/09/06/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/06/my-first-blog/" rel="next" title="vue2">
+      vue2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#css"><span class="nav-number">1.</span> <span class="nav-text">css</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IE%E7%9B%92%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%A0%87%E5%87%86%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">IE盒模型和标准盒模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS%E9%80%89%E6%8B%A9%E5%99%A8%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E6%8E%92%E5%BA%8F"><span class="nav-number">1.2.</span> <span class="nav-text">CSS选择器的优先级排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#css3%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">css3新特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transition%E5%92%8Canimation%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.4.</span> <span class="nav-text">transition和animation的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transform%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-number">1.5.</span> <span class="nav-text">transform的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%BB%E4%B8%80%E6%9D%A10-5px%E7%9A%84%E7%BA%BF"><span class="nav-number">1.6.</span> <span class="nav-text">画一条0.5px的线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#link%E5%92%8Cimport%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.7.</span> <span class="nav-text">link和import的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flex%E5%B8%83%E5%B1%80"><span class="nav-number">1.8.</span> <span class="nav-text">Flex布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8"><span class="nav-number">1.9.</span> <span class="nav-text">清除浮动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E7%B4%A0%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.10.</span> <span class="nav-text">元素垂直居中的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%B1%85%E4%B8%AD"><span class="nav-number">1.11.</span> <span class="nav-text">图片在容器中居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JS%E5%8A%A8%E7%94%BB%E5%92%8CCSS3%E5%8A%A8%E7%94%BB%E7%9A%84%E5%B7%AE%E5%BC%82"><span class="nav-number">1.12.</span> <span class="nav-text">JS动画和CSS3动画的差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%97%E5%85%83%E7%B4%A0%E5%92%8C%E8%A1%8C%E5%85%83%E7%B4%A0"><span class="nav-number">1.13.</span> <span class="nav-text">块元素和行元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E8%A1%8C%E5%85%83%E7%B4%A0%E7%9A%84%E6%96%87%E6%9C%AC%E7%9C%81%E7%95%A5"><span class="nav-number">1.14.</span> <span class="nav-text">多行元素的文本省略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#position%E5%B1%9E%E6%80%A7"><span class="nav-number">1.15.</span> <span class="nav-text">position属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS3%E5%AF%B9%E6%BA%A2%E5%87%BA%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">1.16.</span> <span class="nav-text">CSS3对溢出的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E9%A1%B5%E9%9D%A2%E4%B8%AD%E6%9F%90%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="nav-number">1.17.</span> <span class="nav-text">隐藏页面中某个元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#z-index%E7%9A%84%E5%AE%9A%E4%BD%8D%E6%96%B9%E6%B3%95"><span class="nav-number">1.18.</span> <span class="nav-text">z-index的定位方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dom%E4%B8%8EBom"><span class="nav-number">1.19.</span> <span class="nav-text">Dom与Bom</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js"><span class="nav-number">2.</span> <span class="nav-text">js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.1.</span> <span class="nav-text">普通函数与箭头函数的区别?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generator%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">Generator函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFPromise"><span class="nav-number">2.3.</span> <span class="nav-text">什么是Promise?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#promise%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.4.</span> <span class="nav-text">promise的使用场景?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%9E%E8%B0%83%E5%9C%B0%E7%8B%B1%EF%BC%9F"><span class="nav-number">2.5.</span> <span class="nav-text">什么是回调地狱？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9this%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="nav-number">2.6.</span> <span class="nav-text">对this的理解？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="nav-number">2.7.</span> <span class="nav-text">什么是事件循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-number">2.8.</span> <span class="nav-text">事件循环机制的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E8%BD%AE%E8%AF%A2%E7%9A%84%E6%9C%BA%E5%88%B6-%E4%B9%9F%E5%8F%AB%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9A%84%E6%9C%BA%E5%88%B6%EF%BC%88eventLoop%EF%BC%89"><span class="nav-number">2.9.</span> <span class="nav-text">事件轮询的机制 也叫事件循环的机制（eventLoop）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#for-in%E5%92%8Cfor-of%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">2.10.</span> <span class="nav-text">for in和for of区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="nav-number">2.11.</span> <span class="nav-text">new一个对象的过程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%97%AD%E5%8C%85%EF%BC%9F"><span class="nav-number">2.12.</span> <span class="nav-text">什么是闭包？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%A0%86%E5%86%85%E5%AD%98%E5%92%8C%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%9F"><span class="nav-number">2.13.</span> <span class="nav-text">什么是堆内存和栈内存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%82%E6%B5%81%E5%92%8C%E9%98%B2%E6%8A%96%EF%BC%9F"><span class="nav-number">2.14.</span> <span class="nav-text">节流和防抖？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E6%96%B9%E6%B3%95%E6%94%B9%E5%8F%98%E5%8E%9F%E6%95%B0%E7%BB%84%EF%BC%9F"><span class="nav-number">2.15.</span> <span class="nav-text">数组方法改变原数组？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9FDOM"><span class="nav-number">2.16.</span> <span class="nav-text">虚拟DOM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">2.17.</span> <span class="nav-text">垃圾回收机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#less-%E5%92%8C-sass-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.18.</span> <span class="nav-text">less 和 sass 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.19.</span> <span class="nav-text">CSS预处理器是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%AF%E5%87%BD%E6%95%B0"><span class="nav-number">2.20.</span> <span class="nav-text">纯函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E6%9C%BA%E5%88%B6"><span class="nav-number">2.21.</span> <span class="nav-text">浏览器的同源策略机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#token%E4%B8%80%E8%88%AC%E5%AD%98%E6%94%BE%E5%9C%A8%E5%93%AA%E9%87%8C-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%AD%98%E6%94%BE%E5%9C%A8cookie%E5%86%85"><span class="nav-number">2.22.</span> <span class="nav-text">token一般存放在哪里?为什么不存放在cookie内?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#token%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.23.</span> <span class="nav-text">token是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">2.24.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#async-await"><span class="nav-number">2.25.</span> <span class="nav-text">async&#x2F;await</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#axios"><span class="nav-number">2.26.</span> <span class="nav-text">axios</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="小桥流水"
+      src="https://img2.baidu.com/it/u=1946543678,4068721136&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500">
+  <p class="site-author-name" itemprop="name">小桥流水</p>
+  <div class="site-description" itemprop="description">生活很苦，但不要放弃爱与希望</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AnYuZhe083" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AnYuZhe083" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小桥流水</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">7k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">25 分钟</span>
+</div>
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/01/2023 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script color='' opacity='' zIndex='' count='' src="/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+<script type="text/javascript" src="/js/clicklove.js"></script>
+</html>
